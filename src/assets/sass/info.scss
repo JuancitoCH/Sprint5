@@ -1,0 +1,34 @@
+.infoProduct{
+    background-color: aqua;
+    height: 10rem;
+    width: 100vw;
+
+    .product1,
+    .product2,
+    .product3,
+    .product4
+    {
+        background-color: red;
+        height: 3rem;
+        width: 100%;
+        margin-top: 40%;
+        opacity: 0;
+    }
+}
+
+.appear1{
+    animation: apper .6s ease-in forwards ;
+    background-color: black;
+}
+@keyframes apper{
+    0%{
+        opacity: 0;
+        position: relative;
+        left: 4rem;
+    }
+    100%{
+        opacity: 1;
+        position: relative;
+        left: 0;
+    }
+}
