@@ -1,45 +1,47 @@
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import '../assets/models/product/milk.glb'
-import '../assets/models/product/milk.png'
+import '../assets/models/product/milok02v.gltf'
+import '../assets/models/product/millk Base Color.png'
+import '../assets/models/product/milok02v.bin'
 
 export default function generateCanva(main){
     const scene = new THREE.Scene();
-    const colorBackground = new THREE.Color("rgb(255, 253, 252)");
+    const loader = new GLTFLoader()
+    const camera = new THREE.PerspectiveCamera( 40,  (window.innerWidth-2)/ (window.innerHeight/1.5),1, 100 );
+    camera.position.z = 5;
+
+    const colorBackground = new THREE.Color("rgb(70, 54, 107)");
     scene.background=colorBackground
 
+    // const light = new THREE.AmbientLight( 0xf20034,20 ); // soft white light
+    // scene.add( light );
 
-    // const directionalLight = new THREE.DirectionalLight( 0xe02bcb, 0.5 );
-    // scene.add( directionalLight );
+    const light = new THREE.DirectionalLight( 0xf20034 );
+    const helper = new THREE.DirectionalLightHelper( light, 5 );
+    scene.add( helper );
 
-    const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight,1, 1000 );
     const renderer = new THREE.WebGLRenderer();
-    
     renderer.setSize( window.innerWidth-2, window.innerHeight/1.5 );
+    renderer.shadowMap.enabled = true
     let cube=''
 
-    const texture = new THREE.TextureLoader().load( './assets/milk.png' );
+    const texture = new THREE.TextureLoader().load( './assets/millk Base Color.png' );
     const material = new THREE.MeshBasicMaterial( { map: texture } );
-
-    const loader = new GLTFLoader()
-    loader.load('./assets/milk.glb',(gltf)=>{
+    material.map.flipY=false
+    
+    
+    loader.load('./assets/milok02v.gltf',(gltf)=>{
         cube=gltf.scene.children[0]
         cube.material = material
-        cube.position.x=-1
-        cube.position.y=-1.9
-        cube.position.z=-5.2
+        console.log(cube.material)
+        cube.position.set(-0.5,-1.4,-5.2)
+
         scene.add( cube );
-        console.log(cube)
+        // console.log(cube)
+        
     },(err)=>{
         console.log(err)
     })
-
-    // const geometry = new THREE.BoxGeometry( 1, 1.5, 1 );
-    // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    // const cube = new THREE.Mesh( geometry, material );
-    // scene.add( cube );
-    
-    camera.position.z = 5;
 
     function animate() {
         requestAnimationFrame( animate );
@@ -61,8 +63,6 @@ export default function generateCanva(main){
         catch{
 
         }
-        
-
         renderer.render( scene, camera );
     };
 
